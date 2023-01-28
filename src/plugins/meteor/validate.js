@@ -1,85 +1,85 @@
-import joi from 'joi';
+import Joi from 'joi';
 
-const schema = joi.object().keys({
-  name: joi.string().min(1).required(),
-  path: joi.string().min(1).required(),
-  port: joi.number(),
-  type: joi.string(),
-  servers: joi.object().min(1).required().pattern(
+const schema = Joi.object().keys({
+  name: Joi.string().min(1).required(),
+  path: Joi.string().min(1).required(),
+  port: Joi.number(),
+  type: Joi.string(),
+  servers: Joi.object().min(1).required().pattern(
     /[/s/S]*/,
-    joi.object().keys({
-      env: joi.object().pattern(
+    Joi.object().keys({
+      env: Joi.object().pattern(
         /[/s/S]*/,
-        [joi.string(), joi.number(), joi.bool()]
+        [Joi.string(), Joi.number(), Joi.bool()]
       ),
-      bind: joi.string(),
-      settings: joi.string()
+      bind: Joi.string(),
+      settings: Joi.string()
     })
   ),
-  deployCheckWaitTime: joi.number(),
-  deployCheckPort: joi.number(),
-  enableUploadProgressBar: joi.bool(),
-  dockerImage: joi.string(),
-  docker: joi.object().keys({
-    image: joi.string().trim(),
-    imagePort: joi.number(),
-    imageFrontendServer: joi.string(),
-    args: joi.array().items(joi.string()),
-    bind: joi.string().trim(),
-    prepareBundle: joi.bool(),
-    prepareBundleLocally: joi.bool(),
-    buildInstructions: joi.array().items(joi.string()),
-    stopAppDuringPrepareBundle: joi.bool(),
-    useBuildKit: joi.bool(),
-    networks: joi
+  deployCheckWaitTime: Joi.number(),
+  deployCheckPort: Joi.number(),
+  enableUploadProgressBar: Joi.bool(),
+  dockerImage: Joi.string(),
+  docker: Joi.object().keys({
+    image: Joi.string().trim(),
+    imagePort: Joi.number(),
+    imageFrontendServer: Joi.string(),
+    args: Joi.array().items(Joi.string()),
+    bind: Joi.string().trim(),
+    prepareBundle: Joi.bool(),
+    prepareBundleLocally: Joi.bool(),
+    buildInstructions: Joi.array().items(Joi.string()),
+    stopAppDuringPrepareBundle: Joi.bool(),
+    useBuildKit: Joi.bool(),
+    networks: Joi
       .array()
-      .items(joi.string())
+      .items(Joi.string())
   }),
-  buildOptions: joi.object().keys({
-    serverOnly: joi.bool(),
-    debug: joi.bool(),
-    cleanAfterBuild: joi.bool(),
-    buildLocation: joi.string(),
-    mobileSettings: joi.object(),
-    server: joi.string().uri(),
-    allowIncompatibleUpdates: joi.boolean(),
-    executable: joi.string(),
-    cleanBuildLocation: joi.bool()
+  buildOptions: Joi.object().keys({
+    serverOnly: Joi.bool(),
+    debug: Joi.bool(),
+    cleanAfterBuild: Joi.bool(),
+    buildLocation: Joi.string(),
+    mobileSettings: Joi.object(),
+    server: Joi.string().uri(),
+    allowIncompatibleUpdates: Joi.boolean(),
+    executable: Joi.string(),
+    cleanBuildLocation: Joi.bool()
   }),
-  env: joi
+  env: Joi
     .object()
     .keys({
-      ROOT_URL: joi
+      ROOT_URL: Joi
         .string()
         .regex(
           new RegExp('^(http|https)://', 'i'),
           'valid url with "http://" or "https://"'
         )
         .required(),
-      MONGO_URL: joi.string()
+      MONGO_URL: Joi.string()
     })
-    .pattern(/[\s\S]*/, [joi.string(), joi.number(), joi.bool()]),
-  log: joi.object().keys({
-    driver: joi.string(),
-    opts: joi.object()
+    .pattern(/[\s\S]*/, [Joi.string(), Joi.number(), Joi.bool()]),
+  log: Joi.object().keys({
+    driver: Joi.string(),
+    opts: Joi.object()
   }),
-  volumes: joi.object(),
-  nginx: joi.object().keys({
-    clientUploadLimit: joi.string().trim()
+  volumes: Joi.object(),
+  nginx: Joi.object().keys({
+    clientUploadLimit: Joi.string().trim()
   }),
-  ssl: joi
+  ssl: Joi
     .object()
     .keys({
-      autogenerate: joi
+      autogenerate: Joi
         .object()
         .keys({
-          email: joi.string().email().required(),
-          domains: joi.string().required()
+          email: Joi.string().email().required(),
+          domains: Joi.string().required()
         }),
-      crt: joi.string().trim(),
-      key: joi.string().trim(),
-      port: joi.number(),
-      upload: joi.boolean()
+      crt: Joi.string().trim(),
+      key: Joi.string().trim(),
+      port: Joi.number(),
+      upload: Joi.boolean()
     })
     .and('crt', 'key')
     .without('autogenerate', ['crt', 'key'])
@@ -100,7 +100,7 @@ export default function(
 
   details = combineErrorDetails(
     details,
-    joi.validate(config.app, schema, VALIDATE_OPTIONS)
+    schema.validate(config.app, VALIDATE_OPTIONS)
   );
   if (config.app.name && config.app.name.indexOf(' ') > -1) {
     details.push({

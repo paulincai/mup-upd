@@ -1,19 +1,19 @@
-import joi from 'joi';
+import Joi from 'joi';
 
-const swarmSchema = joi.object().keys({
-  enabled: joi.bool().required(),
-  labels: joi.array().items(joi.object().keys({
-    name: joi.string().required(),
-    value: joi.string().required(),
-    servers: joi.array().items(joi.string())
+const swarmSchema = Joi.object().keys({
+  enabled: Joi.bool().required(),
+  labels: Joi.array().items(Joi.object().keys({
+    name: Joi.string().required(),
+    value: Joi.string().required(),
+    servers: Joi.array().items(Joi.string())
   }))
 });
 
-const registrySchema = joi.object().keys({
-  host: joi.string().required(),
-  imagePrefix: joi.string(),
-  username: joi.string(),
-  password: joi.string()
+const registrySchema = Joi.object().keys({
+  host: Joi.string().required(),
+  imagePrefix: Joi.string(),
+  username: Joi.string(),
+  password: Joi.string()
 });
 
 export function validateSwarm(
@@ -28,7 +28,7 @@ export function validateSwarm(
 
   details = combineErrorDetails(
     details,
-    joi.validate(config.swarm, swarmSchema, VALIDATE_OPTIONS)
+    Joi.validate(config.swarm, swarmSchema, VALIDATE_OPTIONS)
   );
 
   return addLocation(details, 'swarm');
@@ -45,7 +45,7 @@ export function validateRegistry(
   let details = [];
   details = combineErrorDetails(
     details,
-    joi.validate(config.privateDockerRegistry, registrySchema, VALIDATE_OPTIONS)
+    Joi.validate(config.privateDockerRegistry, registrySchema, VALIDATE_OPTIONS)
   );
 
   return addLocation(details, 'dockerPrivateRegistry');

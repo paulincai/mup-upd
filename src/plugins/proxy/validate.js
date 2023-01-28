@@ -1,42 +1,42 @@
-import joi from 'joi';
+import Joi from 'joi';
 
-const schema = joi.object().keys({
-  ssl: joi
+const schema = Joi.object().keys({
+  ssl: Joi
     .object()
     .keys({
-      letsEncryptEmail: joi.string().trim(),
-      crt: joi.string().trim(),
-      key: joi.string().trim(),
-      forceSSL: joi.bool()
+      letsEncryptEmail: Joi.string().trim(),
+      crt: Joi.string().trim(),
+      key: Joi.string().trim(),
+      forceSSL: Joi.bool()
     })
     .and('crt', 'key')
     .without('letsEncryptEmail', ['crt', 'key'])
     .or('letsEncryptEmail', 'crt', 'forceSSL'),
-  domains: joi.string().required(),
-  nginxServerConfig: joi.string(),
-  nginxLocationConfig: joi.string(),
-  clientUploadLimit: joi.string(),
-  servers: joi.object(),
-  loadBalancing: joi.bool(),
-  stickySessions: joi.bool(),
-  shared: joi.object().keys({
-    clientUploadLimit: joi.alternatives().try(joi.number(), joi.string()),
-    httpPort: joi.number(),
-    httpsPort: joi.number(),
-    nginxConfig: joi.string(),
-    nginxTemplate: joi.string(),
-    templatePath: joi.string(),
-    env: joi
+  domains: Joi.string().required(),
+  nginxServerConfig: Joi.string(),
+  nginxLocationConfig: Joi.string(),
+  clientUploadLimit: Joi.string(),
+  servers: Joi.object(),
+  loadBalancing: Joi.bool(),
+  stickySessions: Joi.bool(),
+  shared: Joi.object().keys({
+    clientUploadLimit: Joi.alternatives().try(Joi.number(), Joi.string()),
+    httpPort: Joi.number(),
+    httpsPort: Joi.number(),
+    nginxConfig: Joi.string(),
+    nginxTemplate: Joi.string(),
+    templatePath: Joi.string(),
+    env: Joi
       .object()
-      .pattern(/[\s\S]*/, [joi.string(), joi.number(), joi.boolean()]),
-    envLetsEncrypt: joi
+      .pattern(/[\s\S]*/, [Joi.string(), Joi.number(), Joi.boolean()]),
+    envLetsEncrypt: Joi
       .object()
       .keys({
-        ACME_CA_URI: joi.string().regex(new RegExp('^(http|https)://', 'i')),
-        DEBUG: joi.boolean(),
-        NGINX_PROXY_CONTAINER: joi.string()
+        ACME_CA_URI: Joi.string().regex(new RegExp('^(http|https)://', 'i')),
+        DEBUG: Joi.boolean(),
+        NGINX_PROXY_CONTAINER: Joi.string()
       })
-      .pattern(/[\s\S]*/, [joi.string(), joi.number(), joi.boolean()])
+      .pattern(/[\s\S]*/, [Joi.string(), Joi.number(), Joi.boolean()])
   })
 });
 
@@ -50,7 +50,7 @@ export default function(config, {
 
   details = combineErrorDetails(
     details,
-    joi.validate(config.proxy, schema, VALIDATE_OPTIONS)
+    Joi.validate(config.proxy, schema, VALIDATE_OPTIONS)
   );
   if (
     config.app &&

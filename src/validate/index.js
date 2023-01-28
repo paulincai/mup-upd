@@ -1,7 +1,7 @@
 import * as utils from './utils';
 const { combineErrorDetails, VALIDATE_OPTIONS, improveErrors } = utils;
 import chalk from 'chalk';
-import joi from 'joi';
+import Joi from 'joi';
 import validateServer from './servers';
 
 export const _pluginValidators = {};
@@ -13,24 +13,24 @@ export function addPluginValidator(rootPath, handler) {
 
 function generateSchema() {
   const topLevelKeys = {
-    servers: joi.object(),
-    app: joi.object(),
-    plugins: joi.array(),
-    _origionalConfig: joi.object(),
-    hooks: joi.object().pattern(/.*/, joi.alternatives(joi.object({
-      localCommand: joi.string(),
-      remoteCommand: joi.string(),
-      method: joi.func()
+    servers: Joi.object(),
+    app: Joi.object(),
+    plugins: Joi.array(),
+    _origionalConfig: Joi.object(),
+    hooks: Joi.object().pattern(/.*/, Joi.alternatives(Joi.object({
+      localCommand: Joi.string(),
+      remoteCommand: Joi.string(),
+      method: Joi.func()
     }),
-    joi.func()
+    Joi.func()
     ))
   };
 
   Object.keys(_pluginValidators).forEach(key => {
-    topLevelKeys[key] = joi.any();
+    topLevelKeys[key] = Joi.any();
   });
 
-  return joi.object().keys(topLevelKeys);
+  return Joi.object().keys(topLevelKeys);
 }
 
 function validateAll(_config, origionalConfig) {
@@ -40,7 +40,7 @@ function validateAll(_config, origionalConfig) {
   // should always have this property.
   const config = { ..._config, _origionalConfig: origionalConfig };
 
-  results = joi.validate(config, generateSchema(), VALIDATE_OPTIONS);
+  results = generateSchema().validate(config, VALIDATE_OPTIONS);
   details = combineErrorDetails(details, results);
 
   if (config.servers) {

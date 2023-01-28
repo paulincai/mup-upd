@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 import { cloneDeep, flatMap } from 'lodash';
 import fs from 'fs';
 import os from 'os';
@@ -135,7 +135,7 @@ export function tmpBuildPath(appPath, api) {
 
   return api.resolvePath(
     os.tmpdir(),
-    `mup-meteor-${uuid.v4({ random: uuidNumbers })}`
+    `mup-meteor-${uuidv4({ random: uuidNumbers })}`
   );
 }
 

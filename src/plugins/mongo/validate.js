@@ -1,14 +1,14 @@
-import joi from 'joi';
+import Joi from 'joi';
 
-const schema = joi.object().keys({
+const schema = Joi.object().keys({
   // TODO: mongo.oplog and mongo.port is unused,
   // but was part of the example config.
   // decide what to do with it
-  oplog: joi.bool(),
-  port: joi.number(),
-  dbName: joi.string(),
-  version: joi.string(),
-  servers: joi.object().keys().required()
+  oplog: Joi.bool(),
+  port: Joi.number(),
+  dbName: Joi.string(),
+  version: Joi.string(),
+  servers: Joi.object().keys().required()
 });
 
 function externalMongoUrl(appConfig) {
@@ -47,7 +47,7 @@ export default function(
   const origionalConfig = config._origionalConfig;
   let details = [];
 
-  const validationErrors = joi.validate(config.mongo, schema, VALIDATE_OPTIONS);
+  const validationErrors = schema.validate(config.mongo, VALIDATE_OPTIONS);
   details = combineErrorDetails(details, validationErrors);
   details = combineErrorDetails(
     details,
