@@ -1,6 +1,6 @@
 import debug from 'debug';
 import fs from 'fs';
-import rimraf from 'rimraf';
+import { rimraf } from 'rimraf';
 import { spawn } from 'child_process';
 import tar from 'tar';
 

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const swarmSchema = Joi.object().keys({
+const swarmSchema = Joi.object({
   enabled: Joi.bool().required(),
   labels: Joi.array().items(Joi.object().keys({
     name: Joi.string().required(),
@@ -9,7 +9,7 @@ const swarmSchema = Joi.object().keys({
   }))
 });
 
-const registrySchema = Joi.object().keys({
+const registrySchema = Joi.object({
   host: Joi.string().required(),
   imagePrefix: Joi.string(),
   username: Joi.string(),
@@ -28,7 +28,7 @@ export function validateSwarm(
 
   details = combineErrorDetails(
     details,
-    Joi.validate(config.swarm, swarmSchema, VALIDATE_OPTIONS)
+    swarmSchema.validate(config.swarm, VALIDATE_OPTIONS)
   );
 
   return addLocation(details, 'swarm');
@@ -45,7 +45,7 @@ export function validateRegistry(
   let details = [];
   details = combineErrorDetails(
     details,
-    Joi.validate(config.privateDockerRegistry, registrySchema, VALIDATE_OPTIONS)
+    registrySchema.validate(config.privateDockerRegistry, VALIDATE_OPTIONS)
   );
 
   return addLocation(details, 'dockerPrivateRegistry');

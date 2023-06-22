@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const schema = Joi.object().keys({
+const schema = Joi.object({
   ssl: Joi
     .object()
     .keys({
@@ -50,7 +50,7 @@ export default function(config, {
 
   details = combineErrorDetails(
     details,
-    Joi.validate(config.proxy, schema, VALIDATE_OPTIONS)
+    schema.validate(config.proxy, VALIDATE_OPTIONS)
   );
   if (
     config.app &&
