@@ -1,6 +1,6 @@
 {
   "name": "@paulincai/mup-upd",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Production Quality Meteor Deployments",
   "main": "lib/index.js",
   "repository": {
@@ -44,7 +44,7 @@
     "axios": "^1.7.2",
     "bluebird": "^3.7.2",
     "boxen": "^7.1.1",
-    "chalk": "5.3.0",
+    "chalk": "=4.1.2",
     "debug": "^4.3.4",
     "expand-tilde": "^2.0.2",
     "global-modules": "^2.0.0",
