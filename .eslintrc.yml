@@ -1,7 +1,7 @@
 ---
 parser: babel-eslint
 extends:
-  - es/2015/server
+  - es/2022/server
 plugins:
 - babel
 - markdown
@@ -11,7 +11,7 @@ env:
   mocha: true
 parserOptions:
   sourceType: 'module'
-  ecmaVersion: 2017
+  ecmaVersion: 2022
   ecmaFeatures:
     accessor-pairs: 2
     arrowFunctions: true

@@ -1,8 +1,8 @@
 {
   "plugins": [
-    "@babel/plugin-proposal-object-rest-spread",
-    "@babel/plugin-transform-modules-commonjs",
-    "@babel/plugin-proposal-class-properties"
+    // "@babel/plugin-proposal-object-rest-spread",
+    // "@babel/plugin-transform-modules-commonjs",
+    // "@babel/plugin-proposal-class-properties"
   ],
   "env": {
     "test": {
@@ -10,5 +10,14 @@
         "istanbul"
       ]
     }
-  }
+  },
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"useBuiltIns": "entry",
+				"corejs":3.7
+			}
+		]
+	]
 }
