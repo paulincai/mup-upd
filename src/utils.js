@@ -1,11 +1,13 @@
-import { Client } from 'ssh2-classic';
+import ssh2 from 'ssh2-classic';
+const { Client } = ssh2;
+import bluebird from 'bluebird';
+const { promisify } = bluebird;
 import debug from 'debug';
 import expandTilde from 'expand-tilde';
 import fs from 'fs';
 import net from 'net';
 import nodemiral from '@zodern/nodemiral';
 import path from 'path';
-import { promisify } from 'bluebird';
 import readline from 'readline';
 import stream from 'stream';
 

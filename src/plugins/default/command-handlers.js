@@ -1,7 +1,9 @@
 import chalk from 'chalk';
-import { Client } from 'ssh2-classic';
+import ssh2 from 'ssh2-classic';
+const { Client } = ssh2;
 import debug from 'debug';
-import { map } from 'bluebird';
+import bluebird from 'bluebird';
+const { map } = bluebird;
 
 const log = debug('mup:module:default');
 

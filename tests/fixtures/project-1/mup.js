@@ -1,11 +1,17 @@
 /* eslint-disable */
-var path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
-var meteorPath = path.resolve('..', 'helloapp');
-var serverFile = path.resolve('..', 'servers');
-var servers = require(serverFile);
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-module.exports = {
+const meteorPath = path.resolve(__dirname, '..', 'helloapp');
+const serverFile = path.resolve(__dirname, '..', 'servers.js');
+const servers = require(serverFile).default || require(serverFile);
+
+export default {
   servers: servers,
   app: {
     name: 'myapp',

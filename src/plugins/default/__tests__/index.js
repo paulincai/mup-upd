@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { before, describe, it } from 'mocha';
 import chai, { expect } from 'chai';
-import { countOccurrences, runSSHCommand } from '../../../utils';
+import { countOccurrences, runSSHCommand } from '../../../utils.js';
 import chaiString from 'chai-string';
 import fs from 'fs';
 import os from 'os';
@@ -11,7 +11,7 @@ import sh from 'shelljs';
 chai.use(chaiString);
 
 sh.config.silent = false;
-const servers = require('../../../../tests/fixtures/servers');
+import servers from '../../../../tests/fixtures/servers.js';
 
 describe('module - default', function() {
   this.timeout(900000);

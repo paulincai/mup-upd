@@ -1,8 +1,9 @@
-/* eslint-disable no-var */
+import sh from 'shelljs';
+import path from 'path';
+import yargs from 'yargs';
+import './setup.js';
 
-var sh = require('shelljs');
-var path = require('path');
-var argv = require('yargs').argv;
+const argv = yargs.argv;
 
 var mupDir = process.cwd();
 var keyPath = path.resolve(mupDir, 'tests/fixtures/ssh/new.pub');
@@ -26,7 +27,6 @@ var dockerVolume = '-v mup-test-docker-data:/var/lib/docker';
 var containerId;
 
 console.log('=> Setting up for tests');
-require('./setup.js');
 
 console.log('=> Cleaning cache');
 var cleaningContainerId = sh.exec(

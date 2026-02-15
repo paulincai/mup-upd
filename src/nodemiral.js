@@ -1,4 +1,5 @@
-import { clone, merge } from 'lodash';
+import lodash from 'lodash';
+const { clone, merge } = lodash;
 import nodemiral from '@zodern/nodemiral';
 
 function copy(session, _options, callback) {

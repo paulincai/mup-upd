@@ -1,4 +1,4 @@
-import modules, { locatePluginDir } from '../load-plugins';
+import modules, { locatePluginDir } from '../load-plugins.js';
 import { expect } from 'chai';
 
 describe('load-plugins', () => {

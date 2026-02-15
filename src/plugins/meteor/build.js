@@ -2,7 +2,9 @@ import debug from 'debug';
 import fs from 'fs';
 import { rimraf } from 'rimraf';
 import { spawn } from 'child_process';
-import tar from 'tar';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const tar = require('tar');
 
 const log = debug('mup:module:meteor');
 

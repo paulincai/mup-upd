@@ -1,4 +1,4 @@
-import { addDepreciation, addLocation, serversExist } from '../utils';
+import { addDepreciation, addLocation, serversExist } from '../utils.js';
 import assert from 'assert';
 
 describe('validator utils', () => {

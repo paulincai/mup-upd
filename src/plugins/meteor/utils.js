@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
-import { cloneDeep, flatMap } from 'lodash';
+import lodash from 'lodash';
+const { cloneDeep, flatMap } = lodash;
 import fs from 'fs';
 import os from 'os';
 import {
@@ -7,7 +8,15 @@ import {
 } from './prepare-bundle.js';
 import random from 'random-seed';
 import { spawn } from 'child_process';
-import tar from 'tar';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const tar = require('tar');
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 export function checkAppStarted(list, api) {
   const script = api.resolvePath(__dirname, 'assets/meteor-deploy-check.sh');

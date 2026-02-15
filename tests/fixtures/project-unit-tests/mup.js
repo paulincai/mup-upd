@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   servers: {
     one: {
       host: '1.1.1.1',
@@ -26,4 +26,4 @@ module.exports = {
       two: {}
     }
   }
-}
+};

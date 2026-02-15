@@ -9,13 +9,20 @@ import {
   getNodeVersion,
   getSessions,
   shouldRebuild
-} from './utils';
+} from './utils.js';
 import buildApp, { archiveApp, cleanBuildDir } from './build.js';
-import { checkUrls, createPortInfoLines, displayAvailability, getInformation, withColor } from './status';
-import { map, promisify } from 'bluebird';
-import { prepareBundleLocally, prepareBundleSupported } from './prepare-bundle';
+import { checkUrls, createPortInfoLines, displayAvailability, getInformation, withColor } from './status.js';
+import bluebird from 'bluebird';
+const { map, promisify } = bluebird;;
+import { prepareBundleLocally, prepareBundleSupported } from './prepare-bundle.js';
 import debug from 'debug';
 import nodemiral from '@zodern/nodemiral';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 
 const log = debug('mup:module:meteor');

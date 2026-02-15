@@ -1,12 +1,11 @@
-import {
-  flatMap,
-  isEqual
-} from 'lodash';
+import lodash from 'lodash';
+const { flatMap, isEqual } = lodash;
 import axios from 'axios';
 import boxen from 'boxen';
 import chalk from 'chalk';
 import debug from 'debug';
 import path from 'path';
+import { readFileSync } from 'fs';
 
 const log = debug('mup:updates');
 const SKIP_CHECK_UPDATE = process.env.MUP_SKIP_UPDATE_CHECK === 'true';
@@ -114,8 +113,7 @@ export default function(packages) {
   packages.forEach(({ name, path: packagePath }) => {
     try {
       const packageJsonPath = path.resolve(path.dirname(packagePath), 'package.json');
-      // eslint-disable-next-line global-require
-      const pkg = require(packageJsonPath);
+      const pkg = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
       checkPackageUpdates(name, pkg);
     } catch (e) {
       // It is okay if this fails

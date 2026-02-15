@@ -1,6 +1,6 @@
 import {
   calculateAdditionalManagers, currentManagers, desiredManagers
-} from '../swarm-utils';
+} from '../swarm-utils.js';
 import { expect } from 'chai';
 
 function createServerInfo(servers) {

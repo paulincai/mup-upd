@@ -1,10 +1,10 @@
-import * as validate from '../validate';
-import { commands } from '../commands';
+import * as validate from '../validate/index.js';
+import { commands } from '../commands.js';
 import { expect } from 'chai';
 import fs from 'fs';
-import { hooks } from '../hooks';
+import { hooks } from '../hooks.js';
 import path from 'path';
-import PluginAPI from '../plugin-api';
+import PluginAPI from '../plugin-api.js';
 import sinon from 'sinon';
 
 describe('PluginAPI', () => {

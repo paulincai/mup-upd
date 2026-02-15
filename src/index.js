@@ -1,38 +1,48 @@
-import './node-version';
-import './nodemiral';
-import modules, { loadPlugins, locatePluginDir } from './load-plugins';
+#!/usr/bin/env node
+import './node-version.js';
+import './nodemiral.js';
+import { dirname, join } from 'path';
+import modules, { loadPlugins, locatePluginDir } from './load-plugins.js';
 import chalk from 'chalk';
-import checkUpdates from './updates';
-import { filterArgv } from './utils';
-import MupAPI from './plugin-api';
-import pkg from '../package.json';
-import { registerHook } from './hooks';
-import yargs from 'yargs';
+import checkUpdates from './updates.js';
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+import { filterArgv } from './utils.js';
+import { hideBin } from 'yargs/helpers';
+import MupAPI from './plugin-api.js';
+import { registerHook } from './hooks.js';
+import yargs from 'yargs/yargs';
+
+const require = createRequire(import.meta.url);
+const pkg = require('../package.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const pkgPath = join(__dirname, '../package.json');
 
 const unwantedArgvs = ['_', '$0', 'settings', 'config', 'verbose', 'show-hook-names', 'help', 'servers'];
 
-// Prevent yargs from exiting the process before plugins are loaded
-yargs.help(false);
+const yargsInstance = yargs(hideBin(process.argv));
 
-// Load config before creating commands
-const preAPI = new MupAPI(process.cwd(), process.argv, yargs.argv);
+yargsInstance.help(false);
+
+const preAPI = new MupAPI(process.cwd(), process.argv, yargsInstance.argv);
 const config = preAPI.getConfig(false);
 let pluginList = [];
 
-// Load plugins
-if (config.plugins instanceof Array) {
-  const appPath = config.app && config.app.path ? config.app.path : '';
-  const absoluteAppPath = preAPI.resolvePath(preAPI.base, appPath);
+await (async () => {
+  if (config.plugins instanceof Array) {
+    const appPath = config.app && config.app.path ? config.app.path : '';
+    const absoluteAppPath = preAPI.resolvePath(preAPI.base, appPath);
 
-  pluginList = config.plugins.map(plugin => ({
-    name: plugin,
-    path: locatePluginDir(plugin, preAPI.configPath, absoluteAppPath)
-  }));
+    pluginList = config.plugins.map(plugin => ({
+      name: plugin,
+      path: locatePluginDir(plugin, preAPI.configPath, absoluteAppPath)
+    }));
 
-  loadPlugins(pluginList);
-}
+    await loadPlugins(pluginList);
+  }
+})();
 
-// Load hooks
 if (config.hooks) {
   Object.keys(config.hooks).forEach(key => {
     registerHook(key, config.hooks[key]);
@@ -41,15 +51,14 @@ if (config.hooks) {
 
 function commandWrapper(pluginName, commandName) {
   return function() {
-    // Runs in parallel with command
     checkUpdates([
-      { name: pkg.name, path: require.resolve('../package.json') },
+      { name: pkg.name, path: pkgPath },
       ...pluginList
     ]);
 
     const rawArgv = process.argv.slice(2);
-    const filteredArgv = filterArgv(rawArgv, yargs.argv, unwantedArgvs);
-    const api = new MupAPI(process.cwd(), filteredArgv, yargs.argv);
+    const filteredArgv = filterArgv(rawArgv, yargsInstance.argv, unwantedArgvs);
+    const api = new MupAPI(process.cwd(), filteredArgv, yargsInstance.argv);
     let potentialPromise;
 
     try {
@@ -79,7 +88,7 @@ function addModuleCommands(builder, module, moduleName) {
   });
 }
 
-let program = yargs
+let program = yargsInstance
   .usage(`\nUsage: ${chalk.yellow('mup')} <command> [args]`)
   .version(pkg.version)
   .alias('v', 'version')
@@ -117,23 +126,23 @@ let program = yargs
 
 Object.keys(modules).forEach(moduleName => {
   if (moduleName !== 'default' && modules[moduleName].commands) {
-    yargs.command(
+    yargsInstance.command(
       moduleName,
       modules[moduleName].description,
       subYargs => {
         addModuleCommands(subYargs, modules[moduleName], moduleName);
       },
       () => {
-        yargs.showHelp('log');
+        yargsInstance.showHelp('log');
       }
     );
   } else if (moduleName === 'default') {
-    addModuleCommands(yargs, modules[moduleName], moduleName);
+    addModuleCommands(yargsInstance, modules[moduleName], moduleName);
   }
 });
 
 program = program.argv;
 
 if (program._.length === 0) {
-  yargs.showHelp();
+  yargsInstance.showHelp();
 }

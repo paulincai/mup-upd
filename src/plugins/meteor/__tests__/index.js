@@ -1,6 +1,6 @@
 import { before, describe, it } from 'mocha';
 import chai, { expect } from 'chai';
-import { countOccurrences, runSSHCommand } from '../../../utils';
+import { countOccurrences, runSSHCommand } from '../../../utils.js';
 import assert from 'assert';
 import chaiString from 'chai-string';
 import os from 'os';
@@ -10,7 +10,7 @@ import sh from 'shelljs';
 chai.use(chaiString);
 
 sh.config.silent = false;
-const servers = require('../../../../tests/fixtures/servers');
+import servers from '../../../../tests/fixtures/servers.js';
 
 describe('module - meteor', function() {
   this.timeout(600000);

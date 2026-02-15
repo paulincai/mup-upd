@@ -3,12 +3,12 @@ import { describe, it } from 'mocha';
 import chaiString from 'chai-string';
 import os from 'os';
 import path from 'path';
-import { runSSHCommand } from '../../../utils';
+import { runSSHCommand } from '../../../utils.js';
 import sh from 'shelljs';
 
 chai.use(chaiString);
 sh.config.silent = false;
-const servers = require('../../../../tests/fixtures/servers');
+import servers from '../../../../tests/fixtures/servers.js';
 
 function cdSwarmProject() {
   sh.cd(path.resolve(os.tmpdir(), 'tests/project-swarm'));

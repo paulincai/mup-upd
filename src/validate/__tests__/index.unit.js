@@ -1,4 +1,4 @@
-import validate, { _pluginValidators, addPluginValidator } from '../index';
+import validate, { _pluginValidators, addPluginValidator } from '../index.js';
 import { expect } from 'chai';
 
 describe('validator', () => {

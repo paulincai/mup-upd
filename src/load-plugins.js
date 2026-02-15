@@ -1,16 +1,21 @@
 import { join, resolve } from 'path';
-import { moduleNotFoundIsPath, resolvePath } from './utils';
-import { addPluginValidator } from './validate';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { moduleNotFoundIsPath, resolvePath } from './utils.js';
+import { addPluginValidator } from './validate/index.js';
 import chalk from 'chalk';
 import debug from 'debug';
 import fs from 'fs';
 import globalModules from 'global-modules';
-import registerCommand from './commands';
-import { registerHook } from './hooks';
-import { registerPreparer } from './prepare-config';
-import { registerScrubber } from './scrub-config';
-import { registerSwarmOptions } from './swarm-options';
+import registerCommand from './commands.js';
+import { registerHook } from './hooks.js';
+import { registerPreparer } from './prepare-config.js';
+import { registerScrubber } from './scrub-config.js';
+import { registerSwarmOptions } from './swarm-options.js';
 import resolveFrom from 'resolve-from';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const log = debug('mup:plugin-loader');
 
@@ -21,10 +26,10 @@ export default modules;
 // The directory name is the module name.
 const bundledPlugins = fs
   .readdirSync(resolve(__dirname, 'plugins'))
-  .map(name => ({ name, path: `./plugins/${name}` }))
+  .map(name => ({ name, path: `./plugins/${name}/index.js` }))
   .filter(isDirectoryMupPlugin);
 
-loadPlugins(bundledPlugins);
+await loadPlugins(bundledPlugins);
 
 export function locatePluginDir(name, configPath, appPath) {
   log(`loading plugin ${name}`);
@@ -97,43 +102,39 @@ function registerPlugin(plugin) {
   }
 }
 
-export function loadPlugins(plugins) {
-  plugins
-    .map(plugin => {
-      try {
-        // eslint-disable-next-line global-require
-        const module = require(plugin.path);
-        const name = module.name || plugin.name;
+export async function loadPlugins(plugins) {
+  const loadedPlugins = [];
 
-        return { name, module };
-      } catch (e) {
-        console.log(chalk.red(`Unable to load plugin ${plugin.name}`));
+  for (const plugin of plugins) {
+    try {
+      const module = await import(plugin.path);
+      const name = module.name || plugin.name;
 
-        // Hides error when plugin cannot be loaded
-        // Show the error when a plugin cannot resolve a module
-        if (
-          e.code !== 'MODULE_NOT_FOUND' ||
-          !moduleNotFoundIsPath(e, plugin.path)
-        ) {
-          console.log(e);
-        }
+      loadedPlugins.push({ name, module });
+    } catch (e) {
+      console.log(chalk.red(`Unable to load plugin ${plugin.name}`));
 
-        return { name: module.name || plugin.name, failed: true };
+      if (
+        e.code !== 'MODULE_NOT_FOUND' ||
+        !moduleNotFoundIsPath(e, plugin.path)
+      ) {
+        console.log(e);
       }
-    })
-    .filter(plugin => !plugin.failed)
-    .forEach(plugin => {
-      modules[plugin.name] = plugin.module;
-      registerPlugin(plugin);
-    });
+    }
+  }
+
+  for (const plugin of loadedPlugins) {
+    modules[plugin.name] = plugin.module;
+    registerPlugin(plugin);
+  }
 }
 
 function isDirectoryMupPlugin({ name, path: modulePath }) {
-  if (name === '__tests__') {
+  if (name === '__tests__' || name.startsWith('.')) {
     return false;
   }
 
-  const moduleDir = join(__dirname, modulePath);
+  const pluginDir = join(__dirname, 'plugins', name);
 
-  return fs.statSync(moduleDir).isDirectory();
+  return fs.existsSync(pluginDir) && fs.statSync(pluginDir).isDirectory();
 }

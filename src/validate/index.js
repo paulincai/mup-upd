@@ -1,8 +1,8 @@
-import * as utils from './utils';
+import * as utils from './utils.js';
 const { combineErrorDetails, VALIDATE_OPTIONS, improveErrors } = utils;
 import chalk from 'chalk';
 import Joi from 'joi';
-import validateServer from './servers';
+import validateServer from './servers.js';
 
 export const _pluginValidators = {};
 

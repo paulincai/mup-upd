@@ -1,5 +1,11 @@
-import { resolvePath } from '../utils';
+import { resolvePath } from '../utils.js';
 import shellEscape from 'shell-escape';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 function escapeEnv(env) {
   if (env instanceof Array) {

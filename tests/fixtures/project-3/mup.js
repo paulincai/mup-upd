@@ -1,9 +1,13 @@
-var path = require('path');
-var servers = require('../servers');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import serversDefault from '../servers.js';
 
-var meteorPath = path.resolve('..', 'helloapp');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const meteorPath = path.resolve(__dirname, '..', 'helloapp');
+const servers = serversDefault;
 
-module.exports = {
+export default {
   servers: servers,
 
   app: {

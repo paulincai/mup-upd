@@ -1,9 +1,6 @@
-import { checkVersion, shouldShowDockerWarning } from './utils';
-import {
-  curry,
-  difference,
-  intersection
-} from 'lodash';
+import { checkVersion, shouldShowDockerWarning } from './utils.js';
+import lodash from 'lodash';
+const { curry, difference, intersection } = lodash;
 import {
   demoteManagers,
   diffLabels,
@@ -12,12 +9,19 @@ import {
   joinNodes,
   promoteNodes,
   updateLabels
-} from './swarm';
+} from './swarm.js';
 
 import chalk from 'chalk';
 import debug from 'debug';
-import { map } from 'bluebird';
+import bluebird from 'bluebird';
+const { map } = bluebird;
 import nodemiral from '@zodern/nodemiral';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 const log = debug('mup:module:docker');
 

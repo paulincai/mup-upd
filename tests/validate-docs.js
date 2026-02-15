@@ -1,9 +1,14 @@
-/* eslint-disable no-var */
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import codeBlocks from 'gfm-code-blocks';
+import fs from 'fs';
+import path from 'path';
+import sh from 'shelljs';
 
-var codeBlocks = require('gfm-code-blocks');
-var fs = require('fs');
-var path = require('path');
-var sh = require('shelljs');
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 var docsPath = path.resolve(__dirname, '../docs/docs.md');
 var tmpPath = path.resolve(__dirname, './validate-tmp');

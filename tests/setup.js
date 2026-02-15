@@ -1,11 +1,9 @@
-/* eslint-disable no-var */
-
-var sh = require('shelljs');
-var os = require('os');
-var path = require('path');
-var fs = require('fs');
-var keypair = require('keypair');
-var forge = require('node-forge');
+import sh from 'shelljs';
+import os from 'os';
+import path from 'path';
+import fs from 'fs';
+import keypair from 'keypair';
+import forge from 'node-forge';
 
 if (process.platform !== 'win32') {
   var installCommands = [

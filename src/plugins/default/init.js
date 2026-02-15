@@ -3,6 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import sh from 'shelljs';
 
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+
 const log = debug('mup:init');
 
 sh.config.silent = true;

@@ -1,7 +1,8 @@
-import * as _commands from './commands';
-import _validator from './validate';
-import { defaultsDeep } from 'lodash';
-import { tmpBuildPath } from './utils';
+import * as _commands from './commands.js';
+import _validator from './validate.js';
+import lodash from 'lodash';
+const { defaultsDeep } = lodash;
+import { tmpBuildPath } from './utils.js';
 import traverse from 'traverse';
 
 export const description = 'Deploy and manage meteor apps';

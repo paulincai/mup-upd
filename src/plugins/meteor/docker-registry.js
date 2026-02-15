@@ -8,9 +8,8 @@ function getHost(registryConfig) {
   return registryConfig.host || 'registry-1.docker.io';
 }
 
-function parseWWWAuthenticate(value) {
-  // eslint-disable-next-line global-require
-  const parsers = require('www-authenticate/lib/parsers');
+async function parseWWWAuthenticate(value) {
+  const parsers = await import('www-authenticate/lib/parsers');
   const parsed = new parsers.WWW_Authenticate(value);
 
   if (parsed.err) {
@@ -96,7 +95,7 @@ async function retryWithAuth(
         throw e;
       }
 
-      const parsed = parseWWWAuthenticate(authHeader);
+      const parsed = await parseWWWAuthenticate(authHeader);
       if (parsed.scheme !== 'Bearer') {
         log(`Unsupported authentication scheme: ${parsed.scheme}`);
         throw e;
@@ -144,7 +143,7 @@ export async function checkCompatible(registryConfig) {
       return false;
     }
 
-    const parsed = parseWWWAuthenticate(authenticateHeader);
+    const parsed = await parseWWWAuthenticate(authenticateHeader);
 
     // This is the only auth method we currently support. As we come across
     // others used by registries we will add support for them.

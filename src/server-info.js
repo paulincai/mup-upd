@@ -1,6 +1,7 @@
 import debug from 'debug';
-import { map } from 'bluebird';
-import { runSSHCommand } from './utils';
+import bluebird from 'bluebird';
+const { map } = bluebird;
+import { runSSHCommand } from './utils.js';
 
 const log = debug('mup:server-info');
 

@@ -1,4 +1,4 @@
-import * as utils from '../utils';
+import * as utils from '../utils.js';
 import assert from 'assert';
 import { expect } from 'chai';
 import nodemiral from '@zodern/nodemiral';

@@ -1,11 +1,11 @@
-import { countOccurrences, resolvePath, runSSHCommand } from '../../../utils';
+import { countOccurrences, resolvePath, runSSHCommand } from '../../../utils.js';
 import { describe, it } from 'mocha';
 import assert from 'assert';
 import os from 'os';
 import sh from 'shelljs';
 
 sh.config.silent = false;
-const servers = require('../../../../tests/fixtures/servers');
+import servers from '../../../../tests/fixtures/servers.js';
 
 describe('module - docker', function() {
   this.timeout(6000000);

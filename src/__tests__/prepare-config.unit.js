@@ -1,4 +1,4 @@
-import { _configPreps, registerPreparer, runConfigPreps } from '../prepare-config';
+import { _configPreps, registerPreparer, runConfigPreps } from '../prepare-config.js';
 import { expect } from 'chai';
 
 describe('prepare-config', () => {

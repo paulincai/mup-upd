@@ -1,6 +1,13 @@
-import { Client } from 'ssh2-classic';
+import ssh2 from 'ssh2-classic';
+const { Client } = ssh2;
 import debug from 'debug';
 import nodemiral from '@zodern/nodemiral';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 const log = debug('mup:module:mongo');
 

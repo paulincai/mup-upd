@@ -1,9 +1,16 @@
-import { addProxyEnv, getLoadBalancingHosts, getSessions } from './utils';
+import { addProxyEnv, getLoadBalancingHosts, getSessions } from './utils.js';
 import chalk from 'chalk';
-import { clone } from 'lodash';
+import lodash from 'lodash';
+const { clone } = lodash;;
 import debug from 'debug';
 import fs from 'fs';
 import nodemiral from '@zodern/nodemiral';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 const log = debug('mup:module:proxy');
 const PROXY_CONTAINER_NAME = 'mup-nginx-proxy';

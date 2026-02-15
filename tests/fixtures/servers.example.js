@@ -1,11 +1,14 @@
-var path = require('path');
-var privateKey = path.join(__dirname, 'id_rsa');
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// remove these two lines after adding required server information
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const privateKey = path.join(__dirname, 'id_rsa');
+
 const msg = 'Please fill ./tests/server.example.js and rename it to servers.js';
 throw new Error(msg);
 
-module.exports = {  // eslint-disable-line no-unreachable
+export default {
   mymeteor: {
     host: '1.2.3.4',
     username: 'username',

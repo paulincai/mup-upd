@@ -1,8 +1,7 @@
-/* eslint-disable no-var */
 // NPM 5 now adds optional dependencies, which older versions of npm
 // try to install even if it is the wrong architecture.
 
-var fs = require('fs');
+import fs from 'fs';
 var toRemove = ['fsevents', 'nan'];
 var shrinkwrap = JSON.parse(fs.readFileSync('../npm-shrinkwrap.json'));
 

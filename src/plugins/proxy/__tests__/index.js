@@ -3,9 +3,9 @@ import { describe, it } from 'mocha';
 import chaiString from 'chai-string';
 import os from 'os';
 import path from 'path';
-import { runSSHCommand } from '../../../utils';
+import { runSSHCommand } from '../../../utils.js';
 import sh from 'shelljs';
-const servers = require('../../../../tests/fixtures/servers');
+import servers from '../../../../tests/fixtures/servers.js';
 
 chai.use(chaiString);
 

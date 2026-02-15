@@ -1,4 +1,5 @@
-import { cloneDeep } from 'lodash';
+import lodash from 'lodash';
+const { cloneDeep } = lodash;
 import { parse } from 'url';
 
 export const _configScrubbers = [];
