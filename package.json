@@ -1,6 +1,6 @@
 {
   "name": "@paulincai/mup-upd",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Production Quality Meteor Deployments",
   "main": "lib/index.js",
   "repository": {
@@ -39,7 +39,7 @@
     "clean-shrinkwrap": "cd tests && node clean-shrinkwrap.js"
   },
   "dependencies": {
-    "@zodern/nodemiral": "^1.4.1",
+    "@zodern/nodemiral": "^2.0.0-beta.1",
     "axios": "^1.13.5",
     "bluebird": "^3.7.2",
     "boxen": "^8.0.1",
@@ -56,7 +56,7 @@
     "rimraf": "^6.1.2",
     "shell-escape": "^0.2.0",
     "shelljs": "^0.10.0",
-    "ssh2-classic": "^0.8.10",
+    "ssh2": "^1.16.0",
     "tar": "^7.5.7",
     "traverse": "^0.6.11",
     "uuid": "^13.0.0",

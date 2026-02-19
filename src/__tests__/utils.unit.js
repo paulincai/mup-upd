@@ -145,4 +145,79 @@ describe('utils', () => {
       expect(result).to.deep.equal(['logs']);
     });
   });
+
+  describe('createSSHOptions', () => {
+    it('should create basic SSH options with host and username', () => {
+      const server = {
+        host: '192.168.1.1',
+        username: 'testuser'
+      };
+      const result = utils.createSSHOptions(server);
+
+      expect(result.host).to.equal('192.168.1.1');
+      expect(result.username).to.equal('testuser');
+      expect(result.port).to.equal(22);
+    });
+
+    it('should use custom port from opts', () => {
+      const server = {
+        host: '192.168.1.1',
+        username: 'testuser',
+        opts: {
+          port: 2222
+        }
+      };
+      const result = utils.createSSHOptions(server);
+
+      expect(result.port).to.equal(2222);
+    });
+
+    it('should pass through sshOptions', () => {
+      const server = {
+        host: '192.168.1.1',
+        username: 'testuser',
+        sshOptions: {
+          readyTimeout: 30000,
+          keepaliveInterval: 10000,
+          keepaliveCountMax: 5
+        }
+      };
+      const result = utils.createSSHOptions(server);
+
+      expect(result.readyTimeout).to.equal(30000);
+      expect(result.keepaliveInterval).to.equal(10000);
+      expect(result.keepaliveCountMax).to.equal(5);
+    });
+
+    it('should pass through all sshOptions including algorithms', () => {
+      const server = {
+        host: '192.168.1.1',
+        username: 'testuser',
+        sshOptions: {
+          readyTimeout: 60000,
+          forceIPv4: true,
+          compress: true,
+          algorithms: {
+            kex: ['diffie-hellman-group14-sha1'],
+            cipher: {
+              encrypt: ['aes256-ctr'],
+              decrypt: ['aes256-ctr']
+            }
+          }
+        }
+      };
+      const result = utils.createSSHOptions(server);
+
+      expect(result.readyTimeout).to.equal(60000);
+      expect(result.forceIPv4).to.equal(true);
+      expect(result.compress).to.equal(true);
+      expect(result.algorithms).to.deep.equal({
+        kex: ['diffie-hellman-group14-sha1'],
+        cipher: {
+          encrypt: ['aes256-ctr'],
+          decrypt: ['aes256-ctr']
+        }
+      });
+    });
+  });
 });

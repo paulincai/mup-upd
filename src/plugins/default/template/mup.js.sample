@@ -7,6 +7,23 @@ module.exports = {
       // pem: './path/to/pem'
       // password: 'server-password'
       // or neither for authenticate from ssh-agent
+
+      // Optional: SSH connection options passed directly to ssh2
+      // sshOptions: {
+      //   readyTimeout: 30000,        // SSH handshake timeout (ms)
+      //   keepaliveInterval: 10000,   // Keepalive packet interval (ms)
+      //   keepaliveCountMax: 5,       // Max unanswered keepalives before disconnect
+      //   forceIPv4: false,           // Force IPv4 connection
+      //   forceIPv6: false,           // Force IPv6 connection
+      //   compress: false,            // Enable compression
+      //   algorithms: {               // Custom SSH algorithms
+      //     kex: ['diffie-hellman-group14-sha1'],
+      //     cipher: {
+      //       encrypt: ['aes256-ctr'],
+      //       decrypt: ['aes256-ctr']
+      //     }
+      //   }
+      // }
     }
   },
 

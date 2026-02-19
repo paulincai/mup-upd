@@ -1,0 +1,17 @@
+# Ignore for KiloCode
+
+app/.deploy/
+server/private/
+.npmrc
+node_modules/
+/SavedUtilities
+**/*.run.xml
+docs/docs/languages
+.changes/
+.idea/
+.vscode/
+.archive/
+**/*.scm
+**/*.diff
+.continue/
+_old_ui

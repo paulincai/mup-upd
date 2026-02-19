@@ -1,5 +1,3 @@
-import ssh2 from 'ssh2-classic';
-const { Client } = ssh2;
 import bluebird from 'bluebird';
 const { promisify } = bluebird;
 import debug from 'debug';
@@ -9,6 +7,8 @@ import net from 'net';
 import nodemiral from '@zodern/nodemiral';
 import path from 'path';
 import readline from 'readline';
+import ssh2 from 'ssh2';
+const { Client } = ssh2;
 import stream from 'stream';
 
 const log = debug('mup:utils');
@@ -142,6 +142,11 @@ export function createSSHOptions(server) {
     ssh.agent = sshAgent;
   }
 
+  // Pass through sshOptions if provided
+  if (server.sshOptions) {
+    Object.assign(ssh, server.sshOptions);
+  }
+
   return ssh;
 }
 
@@ -169,7 +174,6 @@ function runSessionCommand(session, command) {
         }
       },
       (err, result) => {
-        // eslint-disable-next-line callback-return
         done();
 
         if (err) {

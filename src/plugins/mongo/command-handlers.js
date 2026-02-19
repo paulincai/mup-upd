@@ -1,10 +1,10 @@
-import ssh2 from 'ssh2-classic';
-const { Client } = ssh2;
 import debug from 'debug';
-import nodemiral from '@zodern/nodemiral';
-
-import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import nodemiral from '@zodern/nodemiral';
+import ssh2 from 'ssh2';
+const { Client } = ssh2;
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
